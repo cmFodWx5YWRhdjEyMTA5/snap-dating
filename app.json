@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Ellen's Snap-dating",
+    "description": "This project is from 'ellenbaby68' to help people how are looking for friendship or even love.",
+    "slug": "ellens-snap-dating",
+    "scheme": "snapdate",
+    "privacy": "public",
+    "sdkVersion": "29.0.0",
+    "platforms": ["ios", "android"],
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/ellen-sees-love.png",
+    "splash": {
+      "image": "./assets/img/ellen-sees-love.png",
+      "resizeMode": "300x300",
+      "backgroundColor": "#ffff00"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ellensnapdating.gabriel"
+    },
+    "android": {
+      "package": "com.yourcompany.gabriel"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#C2185B"
+    }
+  }
+}
