@@ -9,10 +9,10 @@
     "platforms": ["ios", "android"],
     "version": "0.0.1",
     "orientation": "portrait",
-    "icon": "./assets/ellen-sees-love.png",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/img/ellen-sees-love.png",
-      "resizeMode": "300x300",
+      "image": "./assets/img/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#ffff00"
     },
     "updates": {
