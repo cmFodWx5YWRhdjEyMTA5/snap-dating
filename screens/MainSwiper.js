@@ -1,10 +1,10 @@
 import React from 'react';
-import { Font, AppLoading, Constants } from 'expo';
+import { Font, AppLoading, Constants, LinearGradient } from 'expo';
 import { Header } from 'react-native-elements';
 import {
   StyleSheet,
   Text, View,
-  Platform,
+  Platform, ScrollView,
   StatusBar, Dimensions,
   Image, Animated,
   PanResponder
@@ -57,22 +57,42 @@ export default class MainSwiper extends React.Component {
     }).reverse();
   }
 
+  _renderSwiperIcon = (buttonDirection) => {
+    return (
+      <TabBarIcon
+        iconSet={IS_ANDROID ? 'material' : 'ionicon'}
+        style={[styles.buttonIcon, styles.swiperBtn]}
+        size={50}
+        name={IS_ANDROID ?
+          `keyboard-arrow-${buttonDirection}`
+          : `ios-arrow-drop${buttonDirection}`}
+      />
+    );
+  }
+
   render() {
     return (
       <React.Fragment>
-        <View style={styles.addButton}>
-          <TabBarIcon
-            style={styles.buttonIcon}
-            focused={false}
-            name='add-a-photo'
-          />
-        </View>
+        <LinearGradient
+          colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}
+          style={styles.addButton}
+        >
+          <View>
+            <TabBarIcon
+              iconSet='material'
+              size={26}
+              style={[styles.buttonIcon, styles.headerButton]}
+              name='add-a-photo'
+            />
+          </View>
+        </LinearGradient>
         <Swiper
           showsButtons={true}
           showsPagination={false}
-          loadMinimalLoader={<AppLoading />}
           loop={false}
-          width={Platform.OS === 'ios' ? '100%' : SCREEN_WIDTH}
+          nextButton={this._renderSwiperIcon('right')}
+          prevButton={this._renderSwiperIcon('left')}
+          width={!IS_ANDROID ? '100%' : SCREEN_WIDTH}
         >
           {this.renderSwipeCard()}
         </Swiper>
@@ -84,7 +104,6 @@ export default class MainSwiper extends React.Component {
 const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, .5)',
     top: 0,
     right: 0,
     width: '100%',
@@ -97,7 +116,12 @@ const styles = StyleSheet.create({
   },
   buttonIcon: {
     marginBottom: -3,
-    color: '#FFF',
     alignSelf: 'flex-end',
+  },
+  headerButton: {
+    color: '#FFF'
+  },
+  swiperBtn: {
+    color: 'yellow'
   }
 });

@@ -29,7 +29,7 @@
       "package": "com.yourcompany.gabriel"
     },
     "androidStatusBar": {
-      "backgroundColor": "#C2185B"
+      "backgroundColor": "transparent"
     }
   }
 }

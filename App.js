@@ -17,7 +17,7 @@ export default class App extends React.PureComponent {
   };
 
   render() {
-    const color = isAndroid ? 'black' : 'transparent';
+    const color = isAndroid ? 'transparent' : 'transparent';
     const barStyle = "light-content";
 
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
