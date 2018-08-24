@@ -1,37 +1,66 @@
 import React from 'react';
-import Expo from 'expo';
-import { Platform, StatusBar, View } from 'react-native';
-// import { createStackNavigator } from "react-navigation";
-import MainSwiper from './components/MainSwiper';
-import SelectPhoto from './screens/SelectPhoto';
+import Expo, { AppLoading, Asset, Font, Icon } from 'expo';
+import { Platform, StatusBar, View, Navigator } from 'react-native';
+import { createStackNavigator } from "react-navigation";
+import AppNavigator from './navigation/AppNavigator';
+
+const isAndroid = Platform.OS === 'android';
+const marginTop =  (!isAndroid) ? Expo.Constants.statusBarHeight : 0;
 
 // const ScreenRouter = createStackNavigator({
-//   Home: { screen: SelectPhoto },
-//   MainSwiper: { screen: MainSwiper },
-// },
-// {
-//   navigationOptions: {
-//     headerStyle: {
-//       marginTop: Platform.OS === 'ios' ? Expo.Constants.statusBarHeight : 0,
-//       backgroundColor: 'yellow',
-//       elevation: 0,
-//       shadowOpacity: 0
-//     },
-//     headerTintColor: '#000000',
-//   }
-// }
-// );
+//   Home: { screen: MainSwiper },
+// });
 
 export default class App extends React.PureComponent {
+  state = {
+    isLoadingComplete: false,
+  };
+
   render() {
-    return (
-      <React.Fragment>
-        <StatusBar
-          backgroundColor="yellow"
-          barStyle="dark-content"
+    const color = isAndroid ? 'black' : 'transparent';
+    const barStyle = "light-content";
+
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
         />
-        <MainSwiper />
-      </React.Fragment>
-    );
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <StatusBar
+            backgroundColor={color}
+            barStyle={barStyle}
+            translucent={true}
+          />
+          <AppNavigator />
+        </React.Fragment>
+      );
+    }
   }
+
+  _loadResourcesAsync = async () => {
+    return Promise.all([
+      Asset.loadAsync([
+        require('./assets/img/splash.png'),
+      ]),
+      Font.loadAsync({
+        'montserrat-bold': require('./assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+        'Arial': require('./assets/fonts/Arial/Arial.ttf')
+      }),
+    ]);
+  };
+
+  _handleLoadingError = error => {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
+  };
 }

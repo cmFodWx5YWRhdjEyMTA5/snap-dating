@@ -14,8 +14,10 @@
     "native-base": "^2.7.2",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz",
+    "react-native-elements": "^0.19.1",
     "react-native-snap-carousel": "^3.7.2",
     "react-native-swiper": "^1.5.13",
+    "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.11.2"
   }
 }
