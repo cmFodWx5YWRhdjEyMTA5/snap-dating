@@ -1,95 +1,85 @@
-import React from 'react';
-import { Font, AppLoading } from 'expo';
+import React, { Component } from "react";
+import { Image, StatusBar } from "react-native";
+import { Root } from "native-base";
+import { Font, AppLoading } from "expo";
 import {
-  StyleSheet,
-  Text,
+  Container,
+  Header,
   View,
-  Image,
-  Button,
-  ToastAndroid,
-  Platform
-} from 'react-native';
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Left,
+  Body,
+  Icon,
+  Title,
+  Right,
+  Button
+} from "native-base";
 
-export default class SelectPhoto extends React.PureComponent{
-  constructor() {
-    super();
-    this.state = {
-      fontLoaded: false,
-    }
+const cards = [
+  {
+    text: "Card One",
+    name: "One",
+    image: require("../assets/img/demo/demo1.jpg")
+  },
+  {
+    text: "Card two",
+    name: "two",
+    image: require("../assets/img/demo/demo2.jpg")
+  },
+  {
+    text: "Card three",
+    name: "three",
+    image: require("../assets/img/demo/demo3.jpg")
+  }
+];
+
+export default class SelectPhoto extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
   }
 
-  static navigationOptions = {
-    title: 'Ellen\'s SnapDating',
-  };
-
-  async componentDidMount() {
+  async componentWillMount() {
     await Font.loadAsync({
-      'montserrat-bold': require('../assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-
-    this.setState({ fontLoaded: true });
-  }
-
-  _pressButton = () => {
-    if(Platform.OS === 'android') {
-      return ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
-    }
-    return alert('Hello world');
+    this.setState({ loading: false });
+    StatusBar.setHidden(false);
+    StatusBar.setBarStyle("dark-content");
   }
 
   render() {
-    if (this.state.fontLoaded){
+    if (this.state.loading) {
       return (
-        <View style={styles.container}>
-
-          <Image
-            source={require('../assets/img/ellen-sees-love.png')}
-            style={styles.imageLogo}
-          />
-          <Text style={styles.smallText}>Welcome to</Text>
-          <Text style={styles.textTitle}>Ellen's</Text>
-          <Text style={styles.text}>Snap Dating</Text>
-          <View style={styles.spaceTop}>
-            <Button
-              onPress={() => this.props.navigation.navigate("MainSwiper", {})}
-              title='Happy Snap Dating'
-              color='#000000'
-            />
-          </View>
-
-        </View>
-      );
-    } else {
-      return (
-        <AppLoading />
+        <Root>
+          <AppLoading />
+        </Root>
       );
     }
+
+    return (
+      <Container>
+        <Content>
+          <Card>
+            <CardItem header>
+              <Text>NativeBase</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>//Your text here</Text>
+              </Body>
+            </CardItem>
+            <CardItem footer>
+              <Text>GeekyAnts</Text>
+            </CardItem>
+          </Card>
+        </Content>
+      </Container>
+    );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffff00',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textTitle: {
-    fontFamily: 'montserrat-bold',
-    fontSize: 50,
-  },
-  text: {
-    fontSize: 25,
-    fontFamily: 'montserrat-bold',
-  },
-  imageLogo: {
-    width: 100,
-    height: 100,
-  },
-  spaceBottom: {
-    marginBottom: 20,
-  },
-  spaceTop: {
-    marginTop: 20,
-  },
-});
