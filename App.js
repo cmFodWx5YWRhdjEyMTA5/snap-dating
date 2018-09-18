@@ -7,10 +7,6 @@ import AppNavigator from './navigation/AppNavigator';
 const isAndroid = Platform.OS === 'android';
 const marginTop =  (!isAndroid) ? Expo.Constants.statusBarHeight : 0;
 
-// const ScreenRouter = createStackNavigator({
-//   Home: { screen: MainSwiper },
-// });
-
 export default class App extends React.PureComponent {
   state = {
     isLoadingComplete: false,
@@ -49,7 +45,9 @@ export default class App extends React.PureComponent {
       ]),
       Font.loadAsync({
         'montserrat-bold': require('./assets/fonts/Montserrat/Montserrat-Bold.ttf'),
-        'Arial': require('./assets/fonts/Arial/Arial.ttf')
+        'Arial': require('./assets/fonts/Arial/Arial.ttf'),
+        'Material Icons': require("native-base/Fonts/MaterialIcons.ttf"),
+        'MaterialIcons': require("native-base/Fonts/MaterialIcons.ttf")
       }),
     ]);
   };
