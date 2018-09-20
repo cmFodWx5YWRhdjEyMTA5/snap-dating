@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StatusBar, StyleSheet, CameraRoll } from "react-native";
+import { Image, StatusBar, StyleSheet, CameraRoll, ScrollView, TextInput, AsyncStorage } from "react-native";
 import { Root } from "native-base";
 import { Font, AppLoading, ImagePicker, Permissions } from "expo";
 import {
@@ -22,7 +22,10 @@ import {
   Input,
   Label
 } from "native-base";
-// import ImagePicker from "react-native-image-picker";
+import shortid from 'shortid';
+import Swiper from "react-native-swiper";
+import InputFIelds from "../components/InputFIelds";
+import InstructionSteps from '../components/InstructionsSteps';
 
 const cards = [
   {
@@ -45,7 +48,11 @@ const cards = [
 export default class SelectPhoto extends Component {
   state = {
     loading: true,
-    selectedImage: null
+    selectedImage: null,
+    ig: '',
+    name: '',
+    snap: '',
+    extra: ''
   };
 
   static navigationOptions = {
@@ -85,6 +92,12 @@ export default class SelectPhoto extends Component {
     }
   };
 
+  _handleInputChange = (textValue, field) => {
+    this.setState({
+      [field]: textValue
+    });
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -95,59 +108,54 @@ export default class SelectPhoto extends Component {
     }
 
     return (
-      <Container>
-        <Content padder>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {this.state.selectedImage &&
-              <Image
-                source={{ uri: this.state.selectedImage }}
-                style={{ flex: 1, width: 200, height: 200, borderRadius: 10 }}
-              />
-            }
-          </View>
-          <Form>
-            <Item floatingLabel>
-              <Label style={styles.inputColor}>Your Name: </Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label style={styles.inputColor}>SnapChat Handle: </Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label style={styles.inputColor}>
-                Instagram Handle (optional):{" "}
-              </Label>
-              <Input />
-            </Item>
-            <Item floatingLabel last>
-              <Label style={styles.inputColor}>Additional Info: </Label>
-              <Input />
-            </Item>
-            <Button
-              rounded
-              block
-              style={[styles.selectButton, styles.yellowBackground]}
-              onPress={this._selectImageHandler}
-            >
-              <Text style={styles.selectButtonText}>Select Image</Text>
-            </Button>
-            <Button rounded dark block style={styles.selectButton}>
-              <Text>Send</Text>
-              <Icon name="send" />
-            </Button>
-          </Form>
-        </Content>
-      </Container>
+      <ScrollView
+        style={{ backgroundColor: '#FFF', padding: 10 }}
+      >
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          {this.state.selectedImage &&
+            <Image
+              source={{ uri: this.state.selectedImage }}
+              style={{ flex: 1, width: 200, height: 200, borderRadius: 10 }}
+            />
+          }
+        </View>
+        <View style={{ padding: 20 }}>
+          <InputFIelds
+            placeholder="Your Name:"
+            onChange={(text) => this._handleInputChange(text, 'name')}
+          />
+          <InputFIelds
+            placeholder="SnapChat Handle:"
+            onChange={(text) => this._handleInputChange(text, 'snap')}
+          />
+          <InputFIelds
+            placeholder="Instagram Handle (optional):"
+            onChange={(text) => this._handleInputChange(text, 'ig')}
+          />
+          <InputFIelds
+            placeholder="Additional Info:"
+            onChange={(text) => this._handleInputChange(text, 'extra')}
+          />
+          <Button
+            rounded
+            block
+            style={[styles.selectButton, styles.yellowBackground]}
+            onPress={this._selectImageHandler}
+          >
+            <Text style={styles.selectButtonText}>Select Image</Text>
+          </Button>
+          <Button rounded dark block style={styles.selectButton}>
+            <Text>Send</Text>
+            <Icon name="send" />
+          </Button>
+          <InstructionSteps />
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  inputColor: {
-    color: "#000",
-    fontWeight: "bold"
-  },
   yellowBackground: {
     backgroundColor: "yellow"
   },
@@ -158,3 +166,51 @@ const styles = StyleSheet.create({
     color: "black"
   }
 });
+
+
+// return (
+//   <Container>
+//     <Content padder>
+//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//         {this.state.selectedImage &&
+//           <Image
+//             source={{ uri: this.state.selectedImage }}
+//             style={{ flex: 1, width: 200, height: 200, borderRadius: 10 }}
+//           />
+//         }
+//       </View>
+//       <Form>
+//         <Item floatingLabel>
+//           <Label style={styles.inputColor}>Your Name: </Label>
+//           <Input />
+//         </Item>
+//         <Item floatingLabel>
+//           <Label style={styles.inputColor}>SnapChat Handle: </Label>
+//           <Input />
+//         </Item>
+//         <Item floatingLabel>
+//           <Label style={styles.inputColor}>
+//             Instagram Handle (optional):{" "}
+//           </Label>
+//           <Input />
+//         </Item>
+//         <Item floatingLabel last>
+//           <Label style={styles.inputColor}>Additional Info: </Label>
+//           <Input />
+//         </Item>
+//         <Button
+//           rounded
+//           block
+//           style={[styles.selectButton, styles.yellowBackground]}
+//           onPress={this._selectImageHandler}
+//         >
+//           <Text style={styles.selectButtonText}>Select Image</Text>
+//         </Button>
+//         <Button rounded dark block style={styles.selectButton}>
+//           <Text>Send</Text>
+//           <Icon name="send" />
+//         </Button>
+//       </Form>
+//     </Content>
+//   </Container>
+// );
