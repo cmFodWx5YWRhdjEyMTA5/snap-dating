@@ -1,6 +1,6 @@
 import React from 'react';
 import Expo, { AppLoading, Asset, Font, Icon } from 'expo';
-import { Platform, StatusBar, View, Navigator } from 'react-native';
+import { Platform, StatusBar, View, Navigator, AsyncStorage } from 'react-native';
 import { createStackNavigator } from "react-navigation";
 import AppNavigator from './navigation/AppNavigator';
 

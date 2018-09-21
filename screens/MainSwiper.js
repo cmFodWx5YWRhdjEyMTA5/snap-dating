@@ -65,14 +65,13 @@ export default class MainSwiper extends React.Component {
             position: 'absolute',
             top: 0,
             right: 0,
-            width: "100%",
-            height: 64,
+            width: SCREEN_WIDTH,
             justifyContent: "center",
-            paddingHorizontal: 20,
           }}
         >
         <LinearGradient
-          colors={["rgba(0,0,0,0.5)", "rgba(0,0,0,0)"]}
+          colors={["rgba(0, 0, 0, 0.5)", "rgba(0, 0, 0, 0)"]}
+          style={{ paddingHorizontal: 20, }}
         >
           <View>
             <Button
