@@ -232,12 +232,14 @@ const styles = StyleSheet.create({
   infoHeader: {
     fontWeight: "900",
     fontSize,
-    color: whiteColor
+    color: whiteColor,
+    fontFamily: "montserrat-bold"
   },
   infoText: {
     flex: 1,
     color: whiteColor,
     fontSize,
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    fontFamily: "montserrat"
   }
 });

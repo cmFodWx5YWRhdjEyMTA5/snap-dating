@@ -13,7 +13,7 @@ export default class App extends React.PureComponent {
   };
 
   render() {
-    const color = isAndroid ? 'transparent' : 'transparent';
+    const color = 'transparent';
     const barStyle = "light-content";
 
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -45,9 +45,11 @@ export default class App extends React.PureComponent {
       ]),
       Font.loadAsync({
         'montserrat-bold': require('./assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+        'montserrat': require('./assets/fonts/Montserrat/Montserrat-Regular.ttf'),
         'Arial': require('./assets/fonts/Arial/Arial.ttf'),
         'Material Icons': require("native-base/Fonts/MaterialIcons.ttf"),
-        'MaterialIcons': require("native-base/Fonts/MaterialIcons.ttf")
+        'MaterialIcons': require("native-base/Fonts/MaterialIcons.ttf"),
+        'FontAwesome': require("native-base/Fonts/FontAwesome.ttf"),
       }),
     ]);
   };
