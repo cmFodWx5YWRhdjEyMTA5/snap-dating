@@ -9,6 +9,7 @@
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],
+    "facebookScheme": "fb245187336147096",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

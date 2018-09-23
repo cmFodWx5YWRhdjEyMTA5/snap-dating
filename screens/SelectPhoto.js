@@ -49,10 +49,12 @@ export default class SelectPhoto extends Component {
   state = {
     loading: true,
     selectedImage: null,
+    selectedImageObject: {},
     ig: '',
     name: '',
     snap: '',
-    extra: ''
+    extra: '',
+    isValid: false,
   };
 
   static navigationOptions = {
@@ -80,14 +82,15 @@ export default class SelectPhoto extends Component {
   _selectImageHandler = async () => {
     const permissions = Permissions.CAMERA_ROLL;
     const { status } = await Permissions.askAsync(permissions);
-
-    console.log(permissions, status);
     if(status === 'granted') {
       let image = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: 'Images',
       }).catch(error => console.log(permissions, { error }));
       if (!image.cancelled) {
-        this.setState({ selectedImage: image.uri });
+        this.setState({
+          selectedImage: image.uri,
+          selectedImageObject: image
+        }, () => this._isValid());
       }
     }
   };
@@ -95,7 +98,22 @@ export default class SelectPhoto extends Component {
   _handleInputChange = (textValue, field) => {
     this.setState({
       [field]: textValue
-    });
+    }, () => this._isValid());
+  }
+
+  _isValid = () => {
+    const { snap, ig, extra, name, selectedImage } = this.state;
+    if((name && snap ) !== '' && selectedImage){
+      this.setState({ isValid: true });
+    } else {
+      this.setState({ isValid: false });
+    }
+  }
+
+  _handleSubmit() {
+    if(this.state.isValid) {
+      console.log(this.state);
+    }
   }
 
   render() {
@@ -111,6 +129,7 @@ export default class SelectPhoto extends Component {
       <ScrollView
         style={{ backgroundColor: '#FFF', padding: 10 }}
       >
+        {/* <InstructionSteps /> */}
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           {this.state.selectedImage &&
             <Image
@@ -144,11 +163,15 @@ export default class SelectPhoto extends Component {
           >
             <Text style={styles.selectButtonText}>Select Image</Text>
           </Button>
-          <Button rounded dark block style={styles.selectButton}>
+          <Button
+            disabled={!this.state.isValid}
+            style={!this.state.isValid ? styles.disabledButton : styles.selectButton}
+            rounded dark block
+            onPress={() => this._handleSubmit()}
+          >
             <Text>Send</Text>
             <Icon name="send" />
           </Button>
-          <InstructionSteps />
         </View>
       </ScrollView>
     );
@@ -161,6 +184,10 @@ const styles = StyleSheet.create({
   },
   selectButton: {
     marginTop: 20
+  },
+  disabledButton: {
+    backgroundColor: 'grey',
+    marginTop: 20,
   },
   selectButtonText: {
     color: "black"
