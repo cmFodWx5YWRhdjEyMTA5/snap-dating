@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import { StyleSheet, View, StatusBar, Text, Image, TouchableOpacity } from "react-native";
 import Expo, { LinearGradient } from "expo";
 import { Icon } from 'native-base';
+import { FBAPI_ID } from 'react-native-dotenv';
  
 const remote = [
   {
@@ -33,13 +34,29 @@ export default class SocialLogin extends PureComponent {
 
   _renderFacebookButton = () => {
     return (
-      <TouchableOpacity style={styles.facebookButton}>
+      <TouchableOpacity
+        style={styles.facebookButton}
+        onPress={() => this._FBLoginManager()}
+      >
         <Text style={styles.facebookButtonText}>
           <Icon type="FontAwesome" name="facebook-f" style={{ fontSize: 17, marginRight: 20 }} />{"   "}
           Connect with <Text style={{ fontWeight: 'bold' }}>Facebook</Text>
         </Text>
       </TouchableOpacity>
     );
+  }
+
+  _FBLoginManager = async () => {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(FBAPI_ID, {
+      permissions: ['public_profile'],
+    });
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      const actualResponse = await response.json();
+      console.log('response ===> ', actualResponse);
+      // use the facebook data in database
+    }
   }
 
   render() {
